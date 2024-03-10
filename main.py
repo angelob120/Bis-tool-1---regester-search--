@@ -6,7 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from datetime import datetime
 
 def search_michigan_business_registry(business_name, driver):
@@ -39,12 +39,23 @@ def search_michigan_business_registry(business_name, driver):
         print(f"Error searching for business: {e}")
         return [], []
 
+def get_registered_agent_name(link, driver):
+    driver.get(link)
+    try:
+        registered_agent_element = WebDriverWait(driver, 20).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, '#MainContent_lblResidentAgentName'))
+        )
+        registered_agent_name = registered_agent_element.text
+        return registered_agent_name
+    except TimeoutException:
+        return "Timeout: Registered agent name not found"
+
 def main():
     print("Starting script...")
     chrome_options = Options()
     driver = webdriver.Chrome(options=chrome_options)
 
-    csv_file_path = '/Users/angelobrown/Bis tool 1 ( regester search )/Cold Calling _ Cold email CRM orgainzation - Copy of Cold Calling.csv'
+    csv_file_path = 'Cold Calling _ Cold email CRM orgainzation - Copy of Cold Calling.csv'
     print(f"Reading CSV file: {csv_file_path}")
     data = pd.read_csv(csv_file_path)
 
@@ -57,7 +68,7 @@ def main():
     # Prepare new columns for data
     now = datetime.now()
     timestamp = now.strftime("%Y-%m-%d_%H-%M-%S")
-    new_columns = [timestamp + '_Link', timestamp + '_Name']
+    new_columns = [timestamp + '_Link', timestamp + '_Name', timestamp + '_RegisteredAgent']
     business_name_index = data.columns.get_loc('Business Name') + 1
     for col in new_columns:
         data.insert(business_name_index, col, '')
@@ -76,9 +87,16 @@ def main():
                 print(f"Search results for '{business_name}':")
                 for i, name in enumerate(entity_names):
                     print(f"{i+1}. {name}: {links[i]}")
+
+                    # Get registered agent name for the first link
+                    if i == 0:
+                        registered_agent_name = get_registered_agent_name(links[i], driver)
+                        data.at[index, timestamp + '_RegisteredAgent'] = registered_agent_name
+                        print(f"Registered Agent Name: {registered_agent_name}")
             else:
                 data.at[index, timestamp + '_Link'] = "No results found"
                 data.at[index, timestamp + '_Name'] = "No results found"
+                data.at[index, timestamp + '_RegisteredAgent'] = "No results found"
                 print(f"No search results found for '{business_name}'")
 
     # Save the results to a CSV file in the project folder
