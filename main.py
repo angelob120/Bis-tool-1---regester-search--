@@ -8,6 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from datetime import datetime
 
+
 def setup_driver():
     chrome_options = Options()
     chrome_options.add_argument('--headless')
@@ -48,22 +49,22 @@ def main():
     print("Starting script...")
     driver = setup_driver()
 
-    csv_file_path = 'test sheet _ uplaoded to be filtered- Sheet1 (4) - Sheet1.csv'
+    csv_file_path = '/Users/angelobrown/Bis tool 1 ( regester search )/test sheet _ uplaoded to be filtered- Sheet1 (4) - Sheet1.csv'
     print(f"Reading CSV file: {csv_file_path}")
     data = pd.read_csv(csv_file_path)
 
-    if 'Business Name' not in data.columns:
-        print("Error: 'Business Name' column not found.")
+    if 'BusinessName' not in data.columns:
+        print("Error: 'BusinessName' column not found.")
         driver.quit()
         exit()
 
     data.insert(1, 'Registered Agent', "")
 
     for index, row in data.iterrows():
-        if index >= 466:
+        if index >= 894:
             break
 
-        business_name = row['Business Name']
+        business_name = row['BusinessName']  # Changed from 'Business Name' to 'BusinessName'
         if pd.notna(business_name):
             links = search_michigan_business_registry(business_name, driver)
             registered_agent_name = "Not Found"
