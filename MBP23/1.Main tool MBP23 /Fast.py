@@ -48,9 +48,9 @@ async def main(input_dir, output_dir, csv_file_name):
     print(f"Results saved to {output_file_path}")
 
 if __name__ == '__main__':
-    input_dir = '/Users/angelobrown/Downloads/Bis-tool-1---regester-search--/1.Main tool/1.Start'
+    input_dir = '/Users/angelobrown/Downloads/Bis-tool-1---regester-search--/MBP23/1.Main tool MBP23 /1.Start'
     output_dir = '/Users/angelobrown/Downloads/Bis-tool-1---regester-search--/1.Main tool/2.Results'
-    csv_file_name = '/Users/angelobrown/Downloads/Bis-tool-1---regester-search--/1.Main tool/1.Start/test sheet _ uplaoded to be filtered- Sheet1 (4) - Sheet1.csv'
+    csv_file_name = '/Users/angelobrown/Downloads/Bis-tool-1---regester-search--/MBP23/1.Main tool MBP23 /1.Start/test sheet _ uplaoded to be filtered- Sheet1 (4) - Sheet1.csv'
     asyncio.run(main(input_dir, output_dir, csv_file_name))
 
 
