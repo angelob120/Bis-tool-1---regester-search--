@@ -88,3 +88,24 @@ if __name__ == "__main__":
 # python3 main.py
 # change the number in the index to the number of lines there are in the spread sheet
 # update the path the the search file
+
+
+
+
+# python3 --version
+# pip3 install pandas
+# pip3 install selenium
+# Download and set up ChromeDriver manually
+# Check your Chrome version
+# google-chrome --version
+
+# Go to the ChromeDriver download page (https://sites.google.com/chromium.org/driver/) and download the matching version for your OS.
+
+# After downloading, unzip the file
+# unzip chromedriver_linux64.zip
+
+# Move ChromeDriver to /usr/local/bin (or any directory in your PATH)
+# sudo mv chromedriver /usr/local/bin/
+
+# Verify installation
+# chromedriver --version
