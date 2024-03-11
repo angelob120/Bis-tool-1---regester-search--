@@ -48,7 +48,7 @@ def main():
     print("Starting script...")
     driver = setup_driver()
 
-    csv_file_path = 'Cold Calling _ Cold email CRM orgainzation - Copy of Cold Calling.csv'
+    csv_file_path = 'test sheet _ uplaoded to be filtered- Sheet1 (4) - Sheet1.csv'
     print(f"Reading CSV file: {csv_file_path}")
     data = pd.read_csv(csv_file_path)
 
