@@ -8,44 +8,45 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from datetime import datetime
 
+def setup_driver():
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument("--disable-extensions")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-images")  # Disable images
+    return webdriver.Chrome(options=chrome_options)
+
 def search_michigan_business_registry(business_name, driver):
     url = 'https://cofs.lara.state.mi.us/CorpWeb/CorpSearch/CorpSearch.aspx'
     driver.get(url)
     
     try:
-        search_form = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, "searchform")))
-        search_box = search_form.find_element(By.ID, "txtEntityName")
+        WebDriverWait(driver, 5).until(EC.visibility_of_element_located((By.ID, "searchform")))
+        search_box = driver.find_element(By.ID, "txtEntityName")
         search_box.clear()
         search_box.send_keys(business_name)
-        
-        search_button = search_form.find_element(By.ID, "SearchSubmit")
+        search_button = driver.find_element(By.ID, "SearchSubmit")
         search_button.click()
-
         WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "entityData")))
         entity_name_links = driver.find_elements(By.CSS_SELECTOR, "#entityData tbody tr.GridRow a.link")
         links = [link.get_attribute('href') for link in entity_name_links]
-        
         return links
     except Exception as e:
         print(f"Error searching for business: {e}")
         return []
 
 def get_registered_agent_name(link, driver):
-    driver.get(link)
     try:
-        registered_agent_element = WebDriverWait(driver, 20).until(
-            EC.visibility_of_element_located((By.ID, 'MainContent_lblResidentAgentName'))
-        )
-        registered_agent_name = registered_agent_element.text
-        return registered_agent_name
+        driver.get(link)
+        registered_agent_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, 'MainContent_lblResidentAgentName')))
+        return registered_agent_element.text
     except TimeoutException:
         return "Not Found"
 
 def main():
     print("Starting script...")
-    chrome_options = Options()
-    chrome_options.add_argument('--headless')
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = setup_driver()
 
     csv_file_path = 'Cold Calling _ Cold email CRM orgainzation - Copy of Cold Calling.csv'
     print(f"Reading CSV file: {csv_file_path}")
@@ -56,11 +57,10 @@ def main():
         driver.quit()
         exit()
 
-    # Add a new column for the registered agent
     data.insert(1, 'Registered Agent', "")
 
     for index, row in data.iterrows():
-        if index >= 5:
+        if index >= 466:
             break
 
         business_name = row['Business Name']
@@ -84,3 +84,6 @@ def main():
 if __name__ == "__main__":
     main()
 
+
+# python3 main.py
+# change the number in the index to the number of lines there are in the spread sheet
