@@ -83,38 +83,10 @@ def main(input_dir, output_dir, csv_file_name):
     driver.quit()
 
 if __name__ == "__main__":
-    input_dir = '/Users/angelobrown/Downloads/Bis-tool-1---regester-search--/1.Main tool/1.Start'
-    output_dir = '/Users/angelobrown/Downloads/Bis-tool-1---regester-search--/1.Main tool/2.Results'
-    csv_file_name = '/Users/angelobrown/Downloads/Bis-tool-1---regester-search--/1.Main tool/1.Start/test sheet _ uplaoded to be filtered- Sheet1 (4) - Sheet1.csv'
+    input_dir = '/Users/angelobrown/Downloads/Bis-tool-1---regester-search--/MBP23/1.Main tool MBP23 /1.Start'
+    output_dir = '/Users/angelobrown/Downloads/Bis-tool-1---regester-search--/MBP23/1.Main tool MBP23 /2.Results'
+    csv_file_name = '/Users/angelobrown/Downloads/Bis-tool-1---regester-search--/MBP23/1.Main tool MBP23 /1.Start/test sheet.csv'
     main(input_dir, output_dir, csv_file_name)
-
-
-
-# python3 main.py
-# change the number in the index to the number of lines there are in the spread sheet
-# update the path the the search file
-
-
-
-
-# python3 --version
-# pip3 install pandas
-# pip3 install selenium
-# Download and set up ChromeDriver manually
-# Check your Chrome version
-# google-chrome --version
-
-# Go to the ChromeDriver download page (https://sites.google.com/chromium.org/driver/) and download the matching version for your OS.
-
-# After downloading, unzip the file
-# unzip chromedriver_linux64.zip
-
-# Move ChromeDriver to /usr/local/bin (or any directory in your PATH)
-# sudo mv chromedriver /usr/local/bin/
-
-# Verify installation
-# chromedriver --version
-
 
 
 # pyhton3 main.py
