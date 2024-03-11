@@ -3,6 +3,7 @@ import aiohttp
 from bs4 import BeautifulSoup
 import pandas as pd
 from datetime import datetime
+import os
 
 async def fetch(session, url, business_name):
     try:
@@ -14,8 +15,8 @@ async def fetch(session, url, business_name):
     except Exception as e:
         return business_name, "Error"
 
-async def main():
-    csv_file_path = 'Cold Calling _ Cold email CRM orgainzation - Copy of Cold Calling.csv'
+async def main(input_dir, output_dir, csv_file_name):
+    csv_file_path = os.path.join(input_dir, csv_file_name)
     data = pd.read_csv(csv_file_path)
 
     if 'Business Name' not in data.columns:
@@ -41,14 +42,17 @@ async def main():
 
     now = datetime.now()
     timestamp = now.strftime("%Y-%m-%d_%H-%M-%S")
-    output_file_path = f'results_{timestamp}.csv'
+    output_file_name = f'results_{timestamp}.csv'
+    output_file_path = os.path.join(output_dir, output_file_name)
     data.to_csv(output_file_path, index=False)
+    print(f"Results saved to {output_file_path}")
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    input_dir = '/path/to/your/input/directory'
+    output_dir = '/path/to/your/output/directory'
+    csv_file_name = 'your_csv_file_name.csv'
+    asyncio.run(main(input_dir, output_dir, csv_file_name))
 
 
 
-# python3 fast.py
-# change the number in the index to the number of lines there are in the spread sheet
-# update the path the the search file
+# pyhton3 fast.py
