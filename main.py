@@ -22,13 +22,13 @@ def search_michigan_business_registry(business_name, driver):
     driver.get(url)
     
     try:
-        WebDriverWait(driver, 5).until(EC.visibility_of_element_located((By.ID, "searchform")))
+        WebDriverWait(driver, 1).until(EC.visibility_of_element_located((By.ID, "searchform")))
         search_box = driver.find_element(By.ID, "txtEntityName")
         search_box.clear()
         search_box.send_keys(business_name)
         search_button = driver.find_element(By.ID, "SearchSubmit")
         search_button.click()
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.ID, "entityData")))
+        WebDriverWait(driver, 1).until(EC.presence_of_element_located((By.ID, "entityData")))
         entity_name_links = driver.find_elements(By.CSS_SELECTOR, "#entityData tbody tr.GridRow a.link")
         links = [link.get_attribute('href') for link in entity_name_links]
         return links
@@ -39,7 +39,7 @@ def search_michigan_business_registry(business_name, driver):
 def get_registered_agent_name(link, driver):
     try:
         driver.get(link)
-        registered_agent_element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, 'MainContent_lblResidentAgentName')))
+        registered_agent_element = WebDriverWait(driver, 2).until(EC.visibility_of_element_located((By.ID, 'MainContent_lblResidentAgentName')))
         return registered_agent_element.text
     except TimeoutException:
         return "Not Found"
@@ -87,3 +87,4 @@ if __name__ == "__main__":
 
 # python3 main.py
 # change the number in the index to the number of lines there are in the spread sheet
+# update the path the the search file

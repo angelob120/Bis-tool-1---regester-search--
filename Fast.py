@@ -51,3 +51,4 @@ if __name__ == '__main__':
 
 # python3 fast.py
 # change the number in the index to the number of lines there are in the spread sheet
+# update the path the the search file
